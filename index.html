@@ -1,0 +1,450 @@
+<!DOCTYPE html/>
+<html>
+  <!-- Project Started : 15 May, Last Updated : 24 July '14 -->
+  <head>
+    <title> DOM Blast - Battle of The HTML Elements </title>
+    <meta charset="UTF-8"/>
+	<meta name="author" content="Seth Clydesdale"/>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+  </head>
+
+
+  <body>
+  <!-- START MAIN MENU -->
+    <div id="gameVersion">Version 1.07</div>
+    <div id="startMenu" class="menu" style="z-index:10;">
+      <span class="mainTitle">
+        Main Menu
+      </span>
+
+      <br>
+
+      <div class="button" onclick="startGame();">
+        Start Game
+      </div>
+
+      <div class="button" onclick="gameInstruct();">
+        Instructions
+      </div>
+	  
+      <div class="button" onclick="gameControls();">
+        Controls
+      </div>
+	  
+      <div class="button" onclick="gameItems();">
+        Items
+      </div>
+
+      <div class="button" onclick="gameAbout();">
+        About
+      </div>
+	  
+      <div class="button" onclick="gameCustom();">
+        Customize
+      </div>
+
+      <noscript>
+        <br>
+        <div class="catg">
+          <div class="title" style="color:#F99;">
+            Error - JavaScript
+          </div>
+
+          <span style="color:#F99;font-size:80%;">
+            Either your browser does not support JavaScript, or you have disabled it. The game Logic is written in JavaScript, so if you are reading this, it means that you will not be able to play on your current browser. :-(
+          </span>
+        </div>
+      </noscript>
+    </div>
+  <!-- END MAIN MENU -->
+
+
+  <!-- START INSTRUCTIONS -->
+    <div id="instructions" class="menu" style="display:none;z-index:11;">
+      <span class="mainTitle">
+        Instructions
+      </span>
+
+      <div id="back" class="backButton" onclick="goBack(this);">
+        Back
+      </div>
+
+      <div class="catg">
+        <div class="title">
+          How do I play ?
+        </div>
+        <div class="text">
+          You can start playing the game by clicking "Start Game" from the Main Menu. If this is your first time playing, make sure to take a look at the <span class="fakeAnchor" onclick="gameControls();">Controls</span> before starting the game.
+        </div>
+      </div>
+
+      <br>
+	  
+      <div class="catg">
+        <div class="title">
+          What are these items on the ground ?
+        </div>
+        <div class="text">
+          If you notice Items popping in and out of the Gameplay Zone those might just be <span class="fakeAnchor" onclick="gameItems();">Pickups</span> you're seeing. You can move over these items to pick them up and gain advantages, such as a Life, or Shield.
+        </div>
+      </div>
+	  
+	  <br>
+
+      <div class="catg">
+        <div class="title">
+          Gameplay Information
+        </div>
+        <div class="text">
+          <div style="padding:3px;">
+            <div id="player" class="top" style="position:relative;display:inline-block"></div>&nbsp;<strong>You</strong>
+          </div>
+          You will be playing as this Heroic Green Element, which strikes down the Evil Red Elements! Though outnumbered by Reds, you have an arsenal of gadgets and wits at your disposal..
+
+          <br><br>
+
+          <div style="padding:3px;">
+            <div id="enemy-t1" class="top" style="position:relative;display:inline-block"></div>&nbsp;<strong>Your Enemy</strong>
+          </div>
+          These Evil Red Elements have been hunting down and destroying the Heroic Green Elements for an unknown reason.. They are so dedicated that they will sacrifice themselves just to destroy you! It is up to you to destroy as many as possible...before they destroy you!
+
+          <br><br>
+
+          <div style="padding:3px;">
+            <div id="photon" style="position:relative;display:inline-block"></div>&nbsp;<div id="enemyPhoton" style="position:relative;display:inline-block"></div>&nbsp;<strong>Photon</strong>
+          </div>
+          This is a common weapon among the Elements. Anything in the path of these photons will be obliterated!
+
+          <br><br>
+
+          <div style="padding:3px;">
+            <div id="player" class="top" style="margin:5px;border-color:transparent;position:relative;display:inline-block"><div id="shield"></div></div>&nbsp;<strong>Shield</strong>
+          </div>
+          Developed by the Green, these shields help protect you from a single attack. When hit, your shield absorbs the impact and sends out a "Shieldwave" which can annihilate incoming Reds. Unfortunately this causes a strain on the shield, and it is disabled until you can repair it by an item.
+        
+		  <br><br>
+		
+          <div style="padding:3px;">
+            <strong>Evading</strong>
+          </div>
+          Evading is done by pressing CTRL, the direction you evade in depends where you were last facing. While evading you're invincible to damage allowing you to dodge incoming attacks, or ram through incoming enemies for big Score! To evade, your Energy must be at 75% or higher.
+		
+		</div>
+      </div>
+		
+		<br>
+		
+      <div class="catg">
+        <div class="title">
+          Tiers
+        </div>
+        <div class="text">
+          As you progress further into the game you may notice changes in the appearance of your enemy. These are what we call Enemy Tiers; the higher the tier, the more hits they're able to take!
+		  <br><br>
+		  
+		  <div id="enemy-t1" class="top" style="position:relative;display:inline-block"></div>&nbsp;<strong>Tier I</strong>
+		  <br>
+		  These are the first enemies you'll encounter and the weakest by far. A single photon can take them out.
+		  <br><br>
+		  
+		  <div id="enemy-t2" class="top" style="position:relative;display:inline-block"><div></div></div>&nbsp;<strong>Tier II</strong>
+		  <br>
+		  These Red Elements come prepared with some extra armor which will absorb a single photon. Once the armor is destroyed they'll degrade to Tier I.
+		  <br><br>
+		  
+		  <div id="enemy-t3" class="top" style="position:relative;display:inline-block"><div></div></div>&nbsp;<strong>Tier III</strong>
+		  <br>
+		  The biggest threat is Tier III with their magnetically enhanced armor which can absorb up to two photons! Destroying the magnetic field around the armor will degrade them to Tier II.
+		  <br><br>
+		  
+		  <strong>Armor Destruction & Bypass</strong>
+		  <br>
+		  Any destruction of the enemy's armor will reward you will extra score. So, make sure to dispatch the higher ups quickly! If you wish to take out higher tiers in one hit, you can bypass their armor by using an evasion bash.
+        </div>
+      </div>
+    </div>
+  <!-- END INSTRUCTIONS -->
+  
+
+  <!-- START CONTROLS -->
+    <div id="controls" class="menu" style="display:none;z-index:12;">
+      <span class="mainTitle">
+        Controls
+      </span>
+
+      <div id="back" class="backButton" onclick="goBack(this);">
+        Back
+      </div>
+
+	  <div style="font-size:11px;">
+	    <span style="color:#C66">Attention</span> : Some number keys are for use with the numpad while numlock is active.
+	  </div>
+
+	  <div class="catg">
+	    <div class="row last">
+          <span class="label">Action&nbsp;</span>
+          <span class="value">Key</span>
+        </div>
+	  </div>
+
+	  <br>
+
+      <div class="catg">
+        <div class="title">
+          Movement
+        </div>
+		<div class="text">Hold down movement keys to move at a quicker rate.</div>
+
+        <div class="row">
+          <span class="label">Left&nbsp;</span>
+          <span class="value">Left / A / 4</span>
+        </div>
+
+        <div class="row">
+          <span class="label">Up&nbsp;</span>
+          <span class="value">Up / W / 8</span>
+        </div>
+
+        <div class="row">
+          <span class="label">Right&nbsp;</span>
+          <span class="value">Right / D / 6</span>
+        </div>
+
+        <div class="row">
+          <span class="label">Down&nbsp;</span>
+          <span class="value">Down / S / 2</span>
+        </div>
+
+        <div class="row">
+          <span class="label">Top-Left&nbsp;</span>
+          <span class="value">Q / 7</span>
+        </div>
+
+        <div class="row">
+          <span class="label">Top-Right&nbsp;</span>
+          <span class="value">E / 9</span>
+        </div>
+
+        <div class="row">
+          <span class="label">Bottom-Left&nbsp;</span>
+          <span class="value">Z / 1</span>
+        </div>
+
+        <div class="row last">
+          <span class="label">Bottom-Right&nbsp;</span>
+          <span class="value">C / 3</span>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="catg">
+        <div class="title">
+          Attack
+        </div>
+		
+        <div class="row">
+          <span class="label">Switch Weapon&nbsp;</span>
+          <span class="value">1-9</span>
+        </div>
+
+        <div class="row">
+          <span class="label">Fire Selected Weapon&nbsp;</span>
+          <span class="value">Space Bar</span>
+        </div>
+		
+        <div class="row last">
+          <span class="label">Photon Mine&nbsp;</span>
+          <span class="value">B</span>
+        </div>
+      </div>
+
+	  <br>
+
+      <div class="catg">
+        <div class="title">
+          Other
+        </div>
+		
+        <div class="row">
+          <span class="label">Evade&nbsp;</span>
+          <span class="value">CTRL</span>
+        </div>
+
+        <div class="row">
+          <span class="label">Pause&nbsp;</span>
+          <span class="value">P / Break / Pause</span>
+        </div>
+
+        <div class="row last">
+          <span class="label">Resume&nbsp;</span>
+          <span class="value">P / Break / Pause</span>
+        </div>
+      </div>
+    </div>
+  <!-- END CONTROLS -->
+
+
+  <!-- START PICKUPS -->
+    <div id="items" class="menu" style="display:none;z-index:13;">
+      <span class="mainTitle">
+        Items
+      </span>
+
+      <div id="back" class="backButton" onclick="goBack(this);">
+        Back
+      </div>
+
+      <div class="catg">
+        <div class="title">
+          Pickup Information
+        </div>
+        <div class="text">
+          <div style="padding:3px;">
+            <strong>General</strong>
+          </div>
+		  Pickups are items that randomly spawn in the Gameplay Zone. These items provide you with benefits such as an Extra Life, or a Temporary Weapon. Utilize the list below to identify Pickups you encounter.
+		
+		  <br><br>
+		  
+          <div style="padding:3px;">
+            <strong>Score</strong>
+          </div>
+		  If you have the maximum amount of an Item, or it is currently active, it will be converted to Score; 10 points. This is useful for gaining large amounts of Score.
+		
+		  <br><br>
+		
+          <div style="padding:3px;">
+            <div id="extraLive" style="position:relative;display:inline-block;"><div>1</div></div>&nbsp;<strong>Extra Live</strong>
+          </div>
+          Extra Lives give you another chance to be vaporized before going into Game Over. Keep your eyes peeled for this one if you're running low on Lives.
+		
+		  <br><br>
+		  
+          <div style="padding:3px;">
+            <span id="barrageUI" class="barrage"><div id="b1"></div><div id="b2"></div><div id="b3"></div><div id="b4"></div><span></span></span>&nbsp;<strong>Photon Barrage</strong>
+          </div>
+		  The Barrage is a deadly weapon that sends out a single Photon which splits into 8 directions. If you like getting close, you can annihilate a horde of Reds or an armored unit in one well placed shot.
+		
+          <br><br>
+		
+          <div style="padding:3px;">
+            <div id="triUI"><div id="p1"></div><div id="p2"></div><div id="p3"></div><span></span></div>&nbsp;<strong>Tri-Photon</strong>
+          </div>
+          The Tri-Photon fires 3 concentrated Photons which can make quick work of those higher tiers or hordes.
+		  
+          <br><br>
+		
+          <div style="padding:3px;">
+            <span id="bombUI"><span></span></span>&nbsp;<strong>Photon Mine</strong>
+          </div>
+          Photon Mines disintegrate anything unlucky enough to get in range. You can set it up as a Trap, or destroy Enemies on your tail. When acquired, you can deploy a Photon Mine by pressing the <span style="color:#8FF;">B key</span>.
+		
+          <br><br>
+		
+          <div style="padding:3px;">
+            <div id="repair" style="display:inline-block;position:relative;"><div>R</div></div>&nbsp;<strong>Shield Repair</strong>
+          </div>
+          Shield Repair helps restore your Shield so you can unleash another Shieldwave, or absorb an attack. If your Shield is down you'll want to find one of these quickly!
+		  
+		  <br><br>
+		  
+          <div style="padding:3px;">
+            <div id="speedBoost" style="display:inline-block;position:relative;"><div>S</div></div>&nbsp;<strong>Speed Boost</strong>
+          </div>
+          Speed Boost temporarily raises your movement speed for 15 seconds. Need to evade incoming enemies? Look no further.
+		  
+          <br><br>
+		  
+          <div style="padding:3px;">
+            <div id="overdrive" style="display:inline-block;margin:0 3px;"></div>&nbsp;<strong>Overdrive</strong>
+          </div>
+          Overdrive is automatically triggered upon pickup. It gives you temporary invincibility for 5 seconds, and 3 seconds on respawn.
+		
+        </div>
+      </div>
+    </div>
+  <!-- END PICKUPS -->
+  
+  
+  <!-- START ABOUT -->
+    <div id="about" class="menu" style="display:none;z-index:14;">
+      <span class="mainTitle">
+        About
+      </span>
+
+      <div id="back" class="backButton" onclick="goBack(this);">
+        Back
+      </div>
+
+      <div class="catg">
+        <div class="title">
+          What is DOM Blast ?
+        </div>
+        <div class="text">
+          DOM Blast is a simple browser game, developed using HTML, CSS, and JavaScript. Basically it is a Space Ship Shooter, with never ending waves of enemies which increase in numbers until you die.
+        </div>
+      </div>
+		
+      <br>
+		
+      <div class="catg">
+        <div class="title">
+          Browser
+        </div>
+        <div class="text">
+          It is recommended to play this browser game on an up to date browser to take full advantage of style animations and what not. Main development and testing was done through Firefox, and a few Internet Explorer / Google Chrome tests.
+        </div>
+      </div>
+		
+      <br>
+		
+      <div class="catg">
+        <div class="title">
+          Credits
+        </div>
+        <div class="text">
+          <strong>Developer</strong> : Seth Clydesdale<br>
+		  Special thanks to player feedback and to hashbangcode for help with rounding numbers to the nearest 5.
+        </div>
+      </div>
+    </div>
+  <!-- END ABOUT -->
+  
+  <!-- START SHIP CUSTOMIZATION -->
+    <div id="customize" class="menu" style="display:none;z-index:15;">
+      <span class="mainTitle">
+        Customize
+      </span>
+
+      <div id="back" class="backButton" onclick="goBack(this);">
+        Back
+      </div>
+	  
+      <div class="catg">
+        <div class="title">
+          The Workshop
+        </div>
+        <div class="text">
+          Here you can change the color of your ship. Simply type a hex color(#008800), or short color name to change the color of your ship. When finished click "Save Changes" to apply the color, you can also undo these changes by clicking "Undo Changes."
+        </div>
+		<br>
+		Preview&nbsp;:&nbsp;&nbsp;<div id="shipPreview" style="position:relative;display:inline-block;border-bottom:20px solid #080;border-left:10px solid transparent;border-right:10px solid transparent;"><div id="shieldPreview" style="border:1px solid #08F;height:30px;width:30px;position:absolute;right:-16px;top:-4px;border-radius:100px;"></div></div>
+        <br><br>
+		<div class="text">
+          Ship &amp; Photon Color : <input id="shipColor" type="text" maxlength="7" value="#008800" placeholder="#008800" />
+		  <br>
+		  Shield Color : <input id="shieldColor" type="text" maxlength="7" value="#0088FF" placeholder="#0088FF" />
+        </div>
+		<br>
+      </div>
+	  <br>
+      <div class="button" onclick="saveShip();">Save Changes</div>
+	  <div class="button" onclick="undoShip();">Undo Changes</div>
+	</div>
+  <!-- END SHIP CUSTOMIZATION -->
+
+    <script type="text/javascript" src="engine.js"></script>
+  </body>
+
+</html>
