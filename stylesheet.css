@@ -657,3 +657,24 @@
       .right #shield, .top-right #shield, .bottom-right #shield { right:-4px; top:-16px; }
       .bottom #shield { right:-16px; bottom:-4px; }
       /* -- END Shield style -- */
+
+/* ADS */
+.ad-container {
+  text-align:center;
+  margin-top:50px;
+  margin-bottom:20px;
+}
+
+@media (max-width:1000px) {
+  .menu {
+    left:10%;
+    right:10%;
+  }
+}
+
+@media (max-width:450px) {
+  .menu {
+    left:0%;
+    right:0%;
+  }
+}
